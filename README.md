@@ -1,4 +1,6 @@
 # Sleeping Server Stopper
+[![Modrinth](https://img.shields.io/badge/Modrinth-EmptyServerStopper-green?logo=modrinth&logoColor=white)](https://modrinth.com/project/nuRsj5Nz) Get on Modrinth!
+
 This mod is a port of the [Sleeping Server Stopper Spigot plugin](https://github.com/vincss/mcEmptyServerStopper). Supported versions are:
 
 | MC Version ↓ / Plugin Version → | **3.0.0** | **2.0.0** | **1.0.0** |
@@ -7,7 +9,7 @@ This mod is a port of the [Sleeping Server Stopper Spigot plugin](https://github
 | 1.12.2                         |    ⚙️     |    ❌     |    ❌     |
 | 1.16.5                         |    ✅     |    ❌     |    ❌     |
 | 1.18.2                         |    ✅     |    ❌     |    ❌     |
-| 1.19                           |    ✅     |    ✅     |    ❌     |
+| 1.19.X                         |    ✅     |    ✅     |    ❌     |
 | 1.20.1                         |    ✅     |    ✅     |    ✅     |
 
 ✅ - Stable Release
@@ -28,6 +30,8 @@ I'm basing my mod off of another port which has been archived, [EmptyServerStopp
 - ~~Clean up files in repo (Organise folders into versions?)~~ **DONE**
 - ~~Update 1.19 to v3.0.0~~ **DONE**
 - ~~Finish 1.12.2 port.~~ **DONE**
+- Redo the versions so that a single mod file supports all minor versions of a major version.
+  - E.g. Get rid of 1.18.2 and replace it with 1.18 which supports all 1.18.X versions. Hopefully the forge devs didn't make too many drastic changes for each minor version.
 
 ## ⚠ NOTE ⚠
 An issue came up where versions before 1.20.1 aren't working, most likely because the mod was coded using Forge 47.2.0. I will attempt to remake the mod for any other version that is requested (Just open up an issue) since the mod really isn't that hard to make.
