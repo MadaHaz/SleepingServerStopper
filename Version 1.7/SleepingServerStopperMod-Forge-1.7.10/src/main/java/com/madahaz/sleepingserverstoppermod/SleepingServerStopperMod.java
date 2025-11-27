@@ -22,7 +22,7 @@ import java.util.TimerTask;
 public class SleepingServerStopperMod
 {
     public static final String MODID = "sleepingserverstoppermod";
-    public static final String VERSION = "3.0.0-1.7.10";
+    public static final String VERSION = "3.0.1-1.7.10";
     
     private static final Logger LOGGER = LogManager.getLogger(MODID);
 
@@ -44,11 +44,11 @@ public class SleepingServerStopperMod
     
     @EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
-        onServerStart(MinecraftServer.getServer());
         shutdownTime = SleepingServerStopperModConfig.SHUTDOWN_TIME_IN_MINUTES;
         shutdownOnLaunch = SleepingServerStopperModConfig.SHUTDOWN_SERVER_ON_LAUNCH;
         LOGGER.info("[SSS] TIME = " + shutdownTime);
         LOGGER.info("[SSS] BOOL = " + shutdownOnLaunch);
+        onServerStart(MinecraftServer.getServer());
     }
 
     @EventHandler
