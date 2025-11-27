@@ -48,11 +48,11 @@ public class SleepingServerStopperMod
     // Server started Event.
     @EventHandler
     public void onServerStarted(FMLServerStartedEvent event) {
-        onServerStart();
         shutdownTime = SleepingServerStopperModConfig.SHUTDOWN_TIME_IN_MINUTES;
         shutdownOnLaunch = SleepingServerStopperModConfig.SHUTDOWN_SERVER_ON_LAUNCH;
         logger.info("[SSS] TIME = " + shutdownTime);
         logger.info("[SSS] BOOL = " + shutdownOnLaunch);
+        onServerStart();
     }
 
     // Server stopping Event.
