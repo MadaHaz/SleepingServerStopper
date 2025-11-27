@@ -16,7 +16,7 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 
-version = '3.0.0-1.18.2'
+version = '3.0.1-1.18.2'
 group = 'net.madahaz.sleepingserverstoppermod' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'sleepingserverstoppermod'
 
