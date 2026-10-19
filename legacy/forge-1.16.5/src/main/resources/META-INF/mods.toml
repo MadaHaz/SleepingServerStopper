@@ -1,0 +1,19 @@
+modLoader = "javafml"
+loaderVersion = "[36,)"
+license = "All Rights Reserved"
+issueTrackerURL = "https://github.com/MadaHaz/SleepingServerStopper/issues"
+
+[[mods]]
+modId = "sleepingserverstoppermod"
+version = "${version}"
+displayName = "Sleeping Server Stopper"
+displayURL = "https://modrinth.com/project/nuRsj5Nz"
+authors = "MadaHaz"
+description = '''Shuts the server down after it has been empty for a while. Port of the Sleeping Server Stopper Spigot plugin, meant for use with SleepingServerStarter.'''
+
+[[dependencies.sleepingserverstoppermod]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.5]"
+ordering = "NONE"
+side = "BOTH"
