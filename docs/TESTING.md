@@ -8,7 +8,7 @@ There are three layers, from fastest to most thorough.
 | Dev smoke test | `node test/smoke/run.mjs --dev --only <target>` | The mod works in the development environment for one target | 2 – 3 min per target |
 | Docker smoke test | `node test/smoke/run.mjs` | The release jars work on real server installs, for every version and loader | about 10 min for all 16 once cached |
 
-GitHub Actions runs the unit tests, the builds and the Docker smoke test on every push.
+GitHub Actions runs the unit tests and the builds on pushes to `dev` and `master` and on pull requests. The Docker smoke test is run locally, and can also be started by hand on GitHub Actions.
 
 ## What the smoke test checks
 
@@ -108,11 +108,16 @@ To start a manual server for any target: `node test/smoke/run.mjs --manual-only 
 
 ## GitHub Actions
 
-`.github/workflows/build.yml` runs on every push and pull request:
+`.github/workflows/build.yml` runs on pushes to `dev` and `master` and on every pull request. Those runs only build:
 
-1. `modern` and `legacy` build every jar and upload them as artifacts.
+1. `modern` runs the unit tests and builds the modern jars. `legacy` builds the three legacy jars. Both upload the jars as artifacts on the run.
+
+The smoke test is not part of those runs. To run it on GitHub's machines, start the workflow by hand: Actions tab > Build > Run workflow, or `gh workflow run build.yml --ref dev`. A run started this way also does:
+
 2. `smoke-targets` runs `run.mjs --list-json` to get the target list.
 3. `smoke` starts one job per target. Each downloads the jar it needs and runs `node test/smoke/run.mjs --only <target>`.
+
+Nobody can join a server on GitHub's machines, so a `MANUAL` target stays unchecked there. The job still passes on its shutdown check, and the run finishes with a warning naming the targets to test by hand locally. GitHub does not track whether you did.
 
 A red `Smoke <target>` job means that target failed. The job's summary page shows the result table, the job log shows the last lines of the server log, and the full log is in the `smoke-log-<target>` artifact. `MANUAL` targets show up as a warning annotation on the run, not as a failure.
 

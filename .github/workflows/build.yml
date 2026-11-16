@@ -2,6 +2,7 @@ name: Build
 
 on:
   push:
+    branches: [dev, master]
   pull_request:
   workflow_dispatch:
 
@@ -55,9 +56,12 @@ jobs:
             !legacy/forge-${{ matrix.mc }}/build/libs/*-dev.jar
             !legacy/forge-${{ matrix.mc }}/build/libs/*-sources.jar
 
-  # One job per Minecraft version + loader, generated from the same list the local smoke test uses
+  # The smoke test only runs when the workflow is started by hand (Actions tab > Build > Run workflow).
+  # Pushes and pull requests stop after the builds above.
+  # One job per Minecraft version + loader, generated from the same list the local smoke test uses.
   smoke-targets:
     name: List smoke test targets
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.list.outputs.matrix }}
@@ -69,6 +73,7 @@ jobs:
   smoke:
     name: Smoke ${{ matrix.target }}
     needs: [modern, legacy, smoke-targets]
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 30
     strategy:

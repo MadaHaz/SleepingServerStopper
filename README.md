@@ -71,7 +71,7 @@ node test/smoke/run.mjs --only 1.21.1   # one Minecraft version, loader or targe
 node test/smoke/run.mjs --dev --only 1.21.1-fabric   # quick check through Gradle's runServer, no Docker
 ```
 
-Versions the bot can't join yet are listed at the end, and the script starts a server for each so you can join by hand. GitHub Actions runs the same test for every target on each push.
+Versions the bot can't join yet are listed at the end, and the script starts a server for each so you can join by hand. GitHub Actions builds the jars on pushes to `dev` and `master` and on pull requests; the smoke test there only runs when the workflow is started by hand.
 
 [docs/TESTING.md](docs/TESTING.md) has the details. [AGENTS.md](AGENTS.md) is a runbook for pointing an AI coding agent at the tests.
 

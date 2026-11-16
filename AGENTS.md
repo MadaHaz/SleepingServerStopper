@@ -86,7 +86,9 @@ Known quirks, already handled in `run.mjs`:
 
 ## CI
 
-`.github/workflows/build.yml` builds everything and runs the Docker smoke test, one job per target, on every push.
+`.github/workflows/build.yml` runs the unit tests and builds every jar on pushes to `dev` and `master` and on every pull request. It does not run the smoke test on those, so a green push says nothing about the smoke test: run it locally.
+
+The smoke jobs (one per target) only run when the workflow is started by hand: `gh workflow run build.yml --ref <branch>`. Don't start one unless asked.
 
 ```sh
 gh run list --branch <branch> --limit 5
