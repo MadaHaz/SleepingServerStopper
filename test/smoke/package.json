@@ -1,0 +1,13 @@
+{
+  "name": "sleepingserverstopper-smoke",
+  "private": true,
+  "type": "module",
+  "description": "Boots a real server per Minecraft version + loader and checks the mod shuts it down.",
+  "scripts": {
+    "smoke": "node run.mjs",
+    "smoke:dev": "node run.mjs --dev"
+  },
+  "dependencies": {
+    "minecraft-protocol": "^1.68.0"
+  }
+}

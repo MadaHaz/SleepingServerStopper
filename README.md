@@ -58,6 +58,23 @@ Gradle downloads the JDKs it needs automatically, including Java 25 to run Gradl
 - `legacy/forge-1.16.5` uses Architectury Loom. `legacy/forge-1.12.2` and `legacy/forge-1.7.10` use [RetroFuturaGradle](https://github.com/GTNewHorizons/RetroFuturaGradle).
 - The mod version is set once, in `stonecutter.properties.toml`.
 
+## Testing
+`./gradlew :core:test` covers the countdown logic. The smoke test covers everything else: it boots a real dedicated server for every Minecraft version and loader, has a bot join and leave, and checks from the server log that the mod cancels, restarts and finishes the countdown and that the server exits cleanly.
+
+It needs [Node.js](https://nodejs.org/) 22+ and, for the default mode, [Docker](https://www.docker.com/products/docker-desktop/).
+
+```sh
+cd test/smoke && npm ci && cd ../..     # once, installs the bot
+
+node test/smoke/run.mjs --build         # build every jar, then test all of them in Docker
+node test/smoke/run.mjs --only 1.21.1   # one Minecraft version, loader or target (see --list)
+node test/smoke/run.mjs --dev --only 1.21.1-fabric   # quick check through Gradle's runServer, no Docker
+```
+
+Versions the bot can't join yet are listed at the end, and the script starts a server for each so you can join by hand. GitHub Actions runs the same test for every target on each push.
+
+[docs/TESTING.md](docs/TESTING.md) has the details. [AGENTS.md](AGENTS.md) is a runbook for pointing an AI coding agent at the tests.
+
 ## 🤝 Contributors
 Author: [MadaHaz](https://github.com/MadaHaz)
 

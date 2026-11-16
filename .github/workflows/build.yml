@@ -54,3 +54,44 @@ jobs:
             legacy/forge-${{ matrix.mc }}/build/libs/*.jar
             !legacy/forge-${{ matrix.mc }}/build/libs/*-dev.jar
             !legacy/forge-${{ matrix.mc }}/build/libs/*-sources.jar
+
+  # One job per Minecraft version + loader, generated from the same list the local smoke test uses
+  smoke-targets:
+    name: List smoke test targets
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.list.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: list
+        run: echo "matrix=$(node test/smoke/run.mjs --list-json)" >> "$GITHUB_OUTPUT"
+
+  smoke:
+    name: Smoke ${{ matrix.target }}
+    needs: [modern, legacy, smoke-targets]
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.smoke-targets.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: test/smoke/package-lock.json
+      - run: npm ci
+        working-directory: test/smoke
+      - uses: actions/download-artifact@v4
+        with:
+          name: ${{ matrix.artifact }}
+          path: ${{ matrix.path }}
+      - name: Boot a real server and check the mod shuts it down
+        run: node test/smoke/run.mjs --only ${{ matrix.target }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: smoke-log-${{ matrix.target }}
+          path: test/smoke/.work/logs/

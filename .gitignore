@@ -8,6 +8,10 @@ classes/
 # Stonecutter / dev runs
 run/
 
+# Smoke tests
+node_modules/
+test/smoke/.work/
+
 # IntelliJ
 .idea/
 *.iml
