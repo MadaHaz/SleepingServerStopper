@@ -85,14 +85,14 @@
   <text x="1176" y="176" class="tick" text-anchor="middle">26.x</text>
   <g aria-hidden="true"><path d="M60.9 208.25L64.79 210.5L64.79 219.5L57 224L49.21 219.5L49.21 210.5L57 206Z" class="outline-accent" fill="none" stroke-width="2.2" stroke-dasharray="6.3 0.9 12.6 0.9 12.6 0.9 12.6 0.9 6.3" stroke-linejoin="miter"/></g>
   <text x="78" y="215" class="loader" dominant-baseline="central">Fabric</text>
-  <text x="78" y="249" class="file" dominant-baseline="central">sss-fabric-4.1.0+1.16.4-1.21.11.jar</text>
-  <rect x="552" y="243" width="520" height="12" class="bar"/>
-  <path d="M552 242L558.06 245.5L558.06 252.5L552 256L545.94 252.5L545.94 245.5Z" class="marker"/>
-  <path d="M1072 242L1078.06 245.5L1078.06 252.5L1072 256L1065.94 252.5L1065.94 245.5Z" class="marker"/>
-  <text x="78" y="283" class="file" dominant-baseline="central">sss-fabric-4.1.0+26.x.jar</text>
-  <rect x="1124" y="277" width="39" height="12" class="bar"/>
-  <path d="M1163 273L1176 283L1163 293Z" class="marker"/>
-  <path d="M1124 276L1130.06 279.5L1130.06 286.5L1124 290L1117.94 286.5L1117.94 279.5Z" class="marker"/>
+  <text x="78" y="249" class="file" dominant-baseline="central">sss-fabric-4.1.0+26.x.jar</text>
+  <rect x="1124" y="243" width="39" height="12" class="bar"/>
+  <path d="M1163 239L1176 249L1163 259Z" class="marker"/>
+  <path d="M1124 242L1130.06 245.5L1130.06 252.5L1124 256L1117.94 252.5L1117.94 245.5Z" class="marker"/>
+  <text x="78" y="283" class="file" dominant-baseline="central">sss-fabric-4.1.0+1.16.4-1.21.11.jar</text>
+  <rect x="552" y="277" width="520" height="12" class="bar"/>
+  <path d="M552 276L558.06 279.5L558.06 286.5L552 290L545.94 286.5L545.94 279.5Z" class="marker"/>
+  <path d="M1072 276L1078.06 279.5L1078.06 286.5L1072 290L1065.94 286.5L1065.94 279.5Z" class="marker"/>
   <path d="M40 308H1200" class="rule"/>
   <g aria-hidden="true"><path d="M60.9 326.25L64.79 328.5L64.79 337.5L57 342L49.21 337.5L49.21 328.5L57 324Z" class="outline-accent" fill="none" stroke-width="2.2" stroke-dasharray="6.3 0.9 12.6 0.9 12.6 0.9 12.6 0.9 6.3" stroke-linejoin="miter"/></g>
   <text x="78" y="333" class="loader" dominant-baseline="central">NeoForge</text>

@@ -13,8 +13,8 @@ Each row is one jar. It covers every Minecraft version between the endpoints sho
 
 | Versions covered | Built file |
 | :-- | :-- |
-| **1.16.4** ───────────────▶ **1.21.11** | `sleepingserverstoppermod-fabric-4.1.0+1.16.4-1.21.11.jar` |
 | **26.1** ────────────────▶ **26.x** | `sleepingserverstoppermod-fabric-4.1.0+26.x.jar` |
+| **1.16.4** ───────────────▶ **1.21.11** | `sleepingserverstoppermod-fabric-4.1.0+1.16.4-1.21.11.jar` |
 
 ### NeoForge
 
