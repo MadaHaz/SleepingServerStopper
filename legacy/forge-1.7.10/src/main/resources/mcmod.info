@@ -1,0 +1,12 @@
+[
+{
+  "modid": "sleepingserverstoppermod",
+  "name": "Sleeping Server Stopper",
+  "description": "Shuts the server down after it has been empty for a while. Port of the Sleeping Server Stopper Spigot plugin, meant for use with SleepingServerStarter.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://modrinth.com/project/nuRsj5Nz",
+  "authorList": ["MadaHaz"],
+  "dependencies": []
+}
+]

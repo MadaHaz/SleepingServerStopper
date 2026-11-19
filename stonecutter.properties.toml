@@ -1,0 +1,72 @@
+# See https://stonecutter.kikugie.dev/wiki/config/properties#centralized-properties
+# Keys in [loader."mc"] / ["mc"] tables apply only to that node.
+#   mod.mc_compat - Minecraft range written into fabric.mod.json / mods.toml
+mod.id = "sleepingserverstoppermod"
+mod.name = "Sleeping Server Stopper"
+mod.group = "net.madahaz"
+mod.version = "4.0.0"
+mod.authors = "MadaHaz"
+mod.description = "Shuts the server down after it has been empty for a while. Port of the Sleeping Server Stopper Spigot plugin, meant for use with SleepingServerStarter."
+
+deps.fabric_loader = "0.20.0"
+
+
+# ---------------- Fabric ----------------
+[fabric."1.16.5"]
+mod.mc_compat = ">=1.16.4 <=1.16.5"
+deps.fabric_api = "0.42.0+1.16"
+
+[fabric."1.18.2"]
+mod.mc_compat = "1.18.2"
+deps.fabric_api = "0.77.0+1.18.2"
+
+[fabric."1.19.2"]
+mod.mc_compat = ">=1.19 <=1.19.2"
+deps.fabric_api = "0.77.0+1.19.2"
+
+[fabric."1.20.1"]
+mod.mc_compat = ">=1.20 <=1.20.1"
+deps.fabric_api = "0.92.12+1.20.1"
+
+[fabric."1.21.1"]
+mod.mc_compat = ">=1.21 <=1.21.1"
+deps.fabric_api = "0.116.17+1.21.1"
+
+[fabric."1.21.11"]
+mod.mc_compat = "1.21.11"
+deps.fabric_api = "0.141.6+1.21.11"
+
+[fabric."26.3"]
+mod.mc_compat = "~26.3"
+deps.fabric_api = "0.164.0+26.3"
+
+
+# ---------------- Forge (ModDevGradle legacyforge, 1.17 - 1.20.1) ----------------
+[forge."1.18.2"]
+mod.mc_compat = "[1.18.2]"
+mod.loader_compat = "[40,)"
+deps.forge = "1.18.2-40.3.12"
+
+[forge."1.19.2"]
+mod.mc_compat = "[1.19.2]"
+mod.loader_compat = "[43,)"
+deps.forge = "1.19.2-43.5.2"
+
+[forge."1.20.1"]
+mod.mc_compat = "[1.20.1]"
+mod.loader_compat = "[47,)"
+deps.forge = "1.20.1-47.4.28"
+
+
+# ---------------- NeoForge ----------------
+[neoforge."1.21.1"]
+mod.mc_compat = "[1.21, 1.21.1]"
+deps.neoforge = "21.1.264"
+
+[neoforge."1.21.11"]
+mod.mc_compat = "[1.21.11]"
+deps.neoforge = "21.11.48"
+
+[neoforge."26.3"]
+mod.mc_compat = "[26.3, 26.4)"
+deps.neoforge = "26.3.0.94"

@@ -1,2 +1,34 @@
-# VS Code
+# Gradle
+.gradle/
+.kotlin/
+build/
+out/
+classes/
+
+# Stonecutter / dev runs
+run/
+
+# Smoke tests
+node_modules/
+test/smoke/.work/
+
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse / VS Code
+.settings/
 .vscode/
+bin/
+.classpath
+.project
+*.launch
+
+# OS / JVM
+.DS_Store
+hs_err_*.log
+replay_*.log
+*.hprof
+*.jfr

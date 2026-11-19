@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "id": "${id}",
+  "version": "${version}",
+  "name": "${name}",
+  "description": "${description}",
+  "authors": ["${authors}"],
+  "contact": {
+    "homepage": "https://modrinth.com/project/nuRsj5Nz",
+    "sources": "https://github.com/MadaHaz/SleepingServerStopper",
+    "issues": "https://github.com/MadaHaz/SleepingServerStopper/issues"
+  },
+  "license": "All-Rights-Reserved",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["net.madahaz.sleepingserverstopper.fabric.SleepingServerStopperFabric"]
+  },
+  "depends": {
+    "fabricloader": ">=0.12",
+    "fabric-api-base": "*",
+    "fabric-lifecycle-events-v1": "*",
+    "fabric-networking-api-v1": "*",
+    "minecraft": "${minecraft}",
+    "java": ">=${java}"
+  }
+}

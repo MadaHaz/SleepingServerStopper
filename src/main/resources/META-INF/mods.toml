@@ -1,0 +1,19 @@
+modLoader = "javafml"
+loaderVersion = "${loader}"
+license = "All Rights Reserved"
+issueTrackerURL = "https://github.com/MadaHaz/SleepingServerStopper/issues"
+
+[[mods]]
+modId = "${id}"
+version = "${version}"
+displayName = "${name}"
+displayURL = "https://modrinth.com/project/nuRsj5Nz"
+authors = "${authors}"
+description = '''${description}'''
+
+[[dependencies.${id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "${minecraft}"
+ordering = "NONE"
+side = "BOTH"
