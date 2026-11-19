@@ -27,14 +27,14 @@ stonecutter {
             for (loader in loaders) version("$mc-$loader", mc).buildscript("build.$loader.gradle.kts")
         }
 
-        match("1.16.5", "fabric")
-        match("1.18.2", "fabric", "forge")
-        match("1.19.2", "fabric", "forge")
-        match("1.20.1", "fabric", "forge")
-        match("1.21.1", "fabric", "neoforge")
-        match("1.21.11", "fabric", "neoforge")
-        match("26.3", "fabric", "neoforge")
-        vcsVersion = "26.3-fabric"
+        // Each node builds one jar that covers a range of Minecraft versions (`mod.mc_compat`).
+        // Build against the lowest version of the range; runtime names must stay stable across it.
+        match("1.16.5", "fabric")   // 1.16.4 - 1.21.11 (intermediary names)
+        match("26.1", "fabric")     // 26.1+ (unobfuscated)
+        match("1.17.1", "forge")    // 1.17.1 (server events live in another package)
+        match("1.18.2", "forge")    // 1.18.2 - 1.20.1 (SRG names)
+        match("1.21.1", "neoforge") // 1.21 - 26.x (Mojang names)
+        vcsVersion = "26.1-fabric"
     }
 }
 

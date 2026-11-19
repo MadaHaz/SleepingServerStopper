@@ -6,7 +6,7 @@ There are three layers, from fastest to most thorough.
 | --- | --- | --- | --- |
 | Unit tests | `./gradlew :core:test` | The countdown and config logic in `core/`, with no Minecraft involved | seconds |
 | Dev smoke test | `node test/smoke/run.mjs --dev --only <target>` | The mod works in the development environment for one target | 2 – 3 min per target |
-| Docker smoke test | `node test/smoke/run.mjs` | The release jars work on real server installs, for every version and loader | about 10 min for all 16 once cached |
+| Docker smoke test | `node test/smoke/run.mjs` | The release jars work on real server installs, on every Minecraft version each jar claims | about 20 min for all 40 targets once cached |
 
 GitHub Actions runs the unit tests and the builds on pushes to `dev` and `master` and on pull requests. The Docker smoke test is run locally, and can also be started by hand on GitHub Actions.
 
@@ -72,11 +72,11 @@ docker volume ls -q --filter name=sss-smoke- | xargs docker volume rm
 
 The mod jar and config are copied into the volume before every start, so the cache never holds a stale jar.
 
-Servers run in offline mode and listen on `127.0.0.1` only, on ports 25600 – 25615.
+Servers run in offline mode and listen on `127.0.0.1` only, on ports from 25600 up, one per target (25600 – 25639 today). Add `--lan` to let other machines on the network join (for manual checks from another PC).
 
 ### Dev mode
 
-`--dev` runs the same checks against a target's Gradle `runServer` task, so it tests the code as the IDE runs it, without building a jar. It runs one target at a time and uses ports 25700 – 25715.
+`--dev` runs the same checks against a target's Gradle `runServer` task, so it tests the code as the IDE runs it, without building a jar. It runs one target at a time and uses ports from 25700 up. Only the version each jar is built against has a `runServer`, so `--dev` skips the other targets.
 
 It writes `eula.txt`, `config/sleepingserverstoppermod.properties` and the port and `online-mode=false` lines of `server.properties` into that target's run directory (`run/<target>/`, or `legacy/forge-<mc>/run/`).
 
@@ -133,10 +133,14 @@ gh run download <run id> --name smoke-log-1.20.1-forge
 
 There is no separate list to maintain.
 
-- Modern targets are the `[loader."mc"]` tables in `stonecutter.properties.toml`. The loader versions to install come from the same tables.
-- Legacy targets are the `legacy/forge-<mc>/` folders.
+A target is one Minecraft version that one jar is tested on, with the id `<mc>-<loader>`.
 
-Adding a version to the build adds it to the smoke test and to CI.
+- Modern jars are the `[loader."mc"]` tables in `stonecutter.properties.toml`. Each jar is tested on every version in its `mod.smoke_versions` (or just its own version if the key is missing). On the version the jar is built against, the loader build is pinned from `deps.forge` / `deps.neoforge`. On other versions the image installs the recommended or latest loader build for that version.
+- Legacy jars are the `legacy/forge-<mc>/` and `legacy/neoforge-<mc>/` folders. An optional `smoke.properties` there sets `label` (the range part of the jar name) and `versions` (the versions to test on).
+
+An entry `<mc>@<loader>` tests the jar on another loader's server, for example `1.20.1@neoforge` runs the Forge jar on NeoForge 1.20.1 (a Forge fork).
+
+Keep each list to both ends of the jar's range plus one version per minor release in between. Adding a version to a list adds it to the smoke test and to CI.
 
 ## Notes
 
