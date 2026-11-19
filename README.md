@@ -5,34 +5,46 @@ A server-side mod that shuts a dedicated server down once it has been empty for 
 
 Only the server needs the mod. It does nothing in singleplayer or on LAN worlds.
 
-## Supported versions (v4.1.0)
+## Choose your file
 
-| Loader | Minecraft versions |
-| :----- | :----------------- |
-| Fabric   | 1.16.4 – 1.21.11, 26.1+ |
-| NeoForge | 1.20.1 – 1.20.4, 1.20.6 – 26.x |
-| Forge    | 1.7.10, 1.12.2, 1.16.5, 1.17.1 – 1.20.4, 1.20.6 – 1.21.11 |
+Each row is one jar. It covers every Minecraft version between the endpoints shown.
 
-Each jar covers a range of versions, so one download works on every version in its range. Pick the jar for your loader and version:
+### Fabric
 
-| Loader | Minecraft | Jar |
-| :----- | :-------- | :-- |
-| Fabric   | 26.1 and newer 26.x | `sleepingserverstoppermod-fabric-4.1.0+26.x.jar` |
-| Fabric   | 1.16.4 – 1.21.11 | `sleepingserverstoppermod-fabric-4.1.0+1.16.4-1.21.11.jar` |
-| NeoForge | 1.20.6 – 26.x | `sleepingserverstoppermod-neoforge-4.1.0+1.20.6-26.x.jar` |
-| NeoForge | 1.20.2 – 1.20.4 | `sleepingserverstoppermod-neoforge-4.1.0+1.20.2-1.20.4.jar` |
-| NeoForge | 1.20.1 | `sleepingserverstoppermod-forge-4.1.0+1.18.2-1.20.1.jar` (NeoForge 1.20.1 is a Forge fork and loads Forge mods) |
-| Forge    | 1.21.6 – 1.21.11 | `sleepingserverstoppermod-forge-4.1.0+1.21.6-1.21.11.jar` |
-| Forge    | 1.20.6 – 1.21.5 | `sleepingserverstoppermod-forge-4.1.0+1.20.6-1.21.5.jar` |
-| Forge    | 1.20.2 – 1.20.4 | `sleepingserverstoppermod-forge-4.1.0+1.20.2-1.20.4.jar` |
-| Forge    | 1.18.2 – 1.20.1 | `sleepingserverstoppermod-forge-4.1.0+1.18.2-1.20.1.jar` |
-| Forge    | 1.17.1 | `sleepingserverstoppermod-forge-4.1.0+1.17.1.jar` |
-| Forge    | 1.16.5 | `sleepingserverstoppermod-forge-4.1.0+1.16.5.jar` |
-| Forge    | 1.12.2 | `sleepingserverstoppermod-forge-4.1.0+1.12.2.jar` |
-| Forge    | 1.7.10 | `sleepingserverstoppermod-forge-4.1.0+1.7.10.jar` |
+| Versions covered | Built file |
+| :-- | :-- |
+| **1.16.4** ───────────────▶ **1.21.11** | `sleepingserverstoppermod-fabric-4.1.0+1.16.4-1.21.11.jar` |
+| **26.1** ────────────────▶ **26.x** | `sleepingserverstoppermod-fabric-4.1.0+26.x.jar` |
 
-Fabric needs [Fabric API](https://modrinth.com/mod/fabric-api). Every version in the table above is tested on a real server before release (see [Testing](#testing)).
+### NeoForge
+
+| Versions covered | Built file |
+| :-- | :-- |
+| **1.20.6** ───────────────▶ **26.x** | `sleepingserverstoppermod-neoforge-4.1.0+1.20.6-26.x.jar` |
+| **1.20.2** ───────────────▶ **1.20.4** | `sleepingserverstoppermod-neoforge-4.1.0+1.20.2-1.20.4.jar` |
+| **1.20.1** | `sleepingserverstoppermod-forge-4.1.0+1.18.2-1.20.1.jar` ¹ |
+
+¹ NeoForge 1.20.1 is a Forge fork, so it uses the Forge jar.
+
+### Forge
+
+| Versions covered | Built file |
+| :-- | :-- |
+| **1.21.6** ───────────────▶ **1.21.11** | `sleepingserverstoppermod-forge-4.1.0+1.21.6-1.21.11.jar` |
+| **1.20.6** ───────────────▶ **1.21.5** | `sleepingserverstoppermod-forge-4.1.0+1.20.6-1.21.5.jar` |
+| **1.20.2** ───────────────▶ **1.20.4** | `sleepingserverstoppermod-forge-4.1.0+1.20.2-1.20.4.jar` |
+| **1.18.2** ───────────────▶ **1.20.1** | `sleepingserverstoppermod-forge-4.1.0+1.18.2-1.20.1.jar` |
+| **1.17.1** | `sleepingserverstoppermod-forge-4.1.0+1.17.1.jar` |
+| **1.16.5** | `sleepingserverstoppermod-forge-4.1.0+1.16.5.jar` |
+| **1.12.2** | `sleepingserverstoppermod-forge-4.1.0+1.12.2.jar` |
+| **1.7.10** | `sleepingserverstoppermod-forge-4.1.0+1.7.10.jar` |
+
+Fabric needs [Fabric API](https://modrinth.com/mod/fabric-api). Every version in the tables above is tested on a real server before release (see [Testing](#testing)).
 Want another version? Open an issue.
+
+### Timeline overview
+
+![Timeline showing which Sleeping Server Stopper 4.1.0 jar covers each Minecraft version on Fabric, NeoForge and Forge](docs/version-coverage.svg)
 
 ## Config
 On first launch the mod writes `config/sleepingserverstoppermod.properties`:

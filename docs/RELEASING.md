@@ -4,7 +4,7 @@ Releases are uploaded by hand. One release is 12 jars, each covering a range of 
 
 ## Checklist
 
-1. Bump `mod.version` in `stonecutter.properties.toml`. Every build, the legacy ones included, reads it from there. Add a line to "Versions" in `README.md`.
+1. Bump `mod.version` in `stonecutter.properties.toml`. Every build, the legacy ones included, reads it from there. Update the version and jar names in `README.md` and `docs/version-coverage.svg`, and add a line to "Versions" in `README.md`.
 2. Build everything:
    ```sh
    ./gradlew :core:test buildAll
@@ -37,7 +37,7 @@ Releases are uploaded by hand. One release is 12 jars, each covering a range of 
 | `legacy/forge-1.12.2/build/libs/sleepingserverstoppermod-forge-<v>+1.12.2.jar` | Forge | 1.12.2 |
 | `legacy/forge-1.7.10/build/libs/sleepingserverstoppermod-forge-<v>+1.7.10.jar` | Forge | 1.7.10 |
 
-The ranges here must match what the jars declare: `mod.mc_compat` in `stonecutter.properties.toml`, and `versionRange` in each legacy `mods.toml`. If you widen a range, update it in four places: the metadata, the smoke test list (`mod.smoke_versions` or `smoke.properties`), this table, and the README.
+The ranges here must match what the jars declare: `mod.mc_compat` in `stonecutter.properties.toml`, and `versionRange` in each legacy `mods.toml`. If you widen a range, update it in five places: the metadata, the smoke test list (`mod.smoke_versions` or `smoke.properties`), this table, the README compatibility tables, and the SVG timeline.
 
 ## When a new Minecraft version comes out
 
