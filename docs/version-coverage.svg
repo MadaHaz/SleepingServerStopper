@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="902" viewBox="0 0 1240 902" role="img" aria-labelledby="title desc">
+  <title id="title">Sleeping Server Stopper 4.1.0 version coverage</title>
+  <desc id="desc">Which jar covers each Minecraft version on Fabric, NeoForge and Forge. Each bar is one jar (sss- is short for sleepingserverstoppermod-). NeoForge 1.20.1 uses the Forge 1.18.2 to 1.20.1 jar. Columns are evenly spaced in version order.</desc>
+  <defs>
+    <style>
+      svg {
+        --bg: #ffffff; --line: #e3e7e5; --zebra: #f4f7f5; --grid: #d5dbd8;
+        --ink: #111111; --muted: #5d6662; --accent-ink: #0a8456; --mint: #12c985;
+        --pill: #e7f8f0;
+      }
+      @media (prefers-color-scheme: dark) {
+        svg {
+          --bg: #111312; --line: #262b29; --zebra: #171a19; --grid: #2c3230;
+          --ink: #eef1f0; --muted: #96a09c; --accent-ink: #3ddc9e; --mint: #12c985;
+          --pill: #10291f;
+        }
+      }
+      text { font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", "DejaVu Sans Mono", monospace; fill: var(--ink); }
+      .card { fill: var(--bg); stroke: var(--line); }
+      .eyebrow { fill: var(--accent-ink); font-size: 12px; font-weight: 700; letter-spacing: 2.5px; }
+      .title { font-size: 28px; font-weight: 700; }
+      .small { font-size: 12px; }
+      .muted { fill: var(--muted); }
+      .axis { fill: var(--muted); font-size: 10px; font-weight: 700; letter-spacing: 1.6px; }
+      .tick { fill: var(--muted); font-size: 11px; }
+      .loader { font-size: 15px; font-weight: 700; }
+      .file { font-size: 13px; }
+      .note { fill: var(--accent-ink); font-weight: 700; }
+      .rule { stroke: var(--line); stroke-width: 1; }
+      .grid { stroke: var(--grid); stroke-width: 1; stroke-dasharray: 2 5; }
+      .zebra { fill: var(--zebra); }
+      .bar { fill: url(#stripes); stroke: var(--mint); stroke-width: 1.5; }
+      .marker { fill: var(--mint); stroke: var(--bg); stroke-width: 2; stroke-linejoin: round; }
+      .halo { fill: var(--mint); opacity: .2; }
+      .outline { stroke: var(--ink); }
+      .outline-accent { stroke: var(--mint); }
+      .pill { fill: var(--pill); stroke: var(--mint); stroke-opacity: .6; }
+      .pill-text { fill: var(--accent-ink); font-size: 14px; font-weight: 700; }
+      .stripe { fill: var(--mint); }
+    </style>
+    <pattern id="stripes" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <rect width="3" height="6" class="stripe"/>
+    </pattern>
+    <pattern id="stripes-logo" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
+      <rect width="3" height="5" class="stripe"/>
+    </pattern>
+  </defs>
+
+  <rect x=".5" y=".5" width="1239" height="901" rx="18" class="card"/>
+  <rect x="40" y="234" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="352" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="420" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="504" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="572" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="640" width="1160" height="30" rx="6" class="zebra"/>
+  <rect x="40" y="708" width="1160" height="30" rx="6" class="zebra"/>
+  <path d="M448 190V782 M500 190V782 M552 190V782 M604 190V782 M656 190V782 M708 190V782 M760 190V782 M812 190V782 M864 190V782 M916 190V782 M968 190V782 M1020 190V782 M1072 190V782 M1124 190V782 M1176 190V782" class="grid" aria-hidden="true"/>
+  <g aria-hidden="true">
+    <clipPath id="logo-clip"><path d="M84 53.6L101.67 63.8L101.67 84.2L84 94.4L66.33 84.2L66.33 63.8Z"/></clipPath>
+    <rect x="63.6" y="53.6" width="40.8" height="40.8" fill="url(#stripes-logo)" clip-path="url(#logo-clip)"/>
+    <path d="M98.72 48.5L113.44 57L113.44 91L84 108L54.56 91L54.56 57L84 40Z" class="outline" fill="none" stroke-width="4.42" stroke-dasharray="23.8 3.4 47.6 3.4 47.6 3.4 47.6 3.4 23.8" stroke-linejoin="miter"/>
+  </g>
+  <text x="138" y="56" class="eyebrow">SLEEPING SERVER STOPPER</text>
+  <text x="138" y="88" class="title">Version coverage</text>
+  <text x="138" y="114" class="muted small">One bar = one jar. Each bar covers every version between its ends.</text>
+  <rect x="1108" y="46" width="92" height="30" rx="15" class="pill"/>
+  <text x="1154" y="61" class="pill-text" text-anchor="middle" dominant-baseline="central">v4.1.0</text>
+  <path d="M40 144H1200" class="rule"/>
+  <text x="78" y="176" class="axis">BUILT FILE</text>
+  <text x="408" y="176" class="axis" text-anchor="end">MINECRAFT</text>
+  <text x="448" y="176" class="tick" text-anchor="middle">1.7.10</text>
+  <text x="500" y="176" class="tick" text-anchor="middle">1.12.2</text>
+  <text x="552" y="176" class="tick" text-anchor="middle">1.16.4</text>
+  <text x="604" y="176" class="tick" text-anchor="middle">1.16.5</text>
+  <text x="656" y="176" class="tick" text-anchor="middle">1.17.1</text>
+  <text x="708" y="176" class="tick" text-anchor="middle">1.18.2</text>
+  <text x="760" y="176" class="tick" text-anchor="middle">1.20.1</text>
+  <text x="812" y="176" class="tick" text-anchor="middle">1.20.2</text>
+  <text x="864" y="176" class="tick" text-anchor="middle">1.20.4</text>
+  <text x="916" y="176" class="tick" text-anchor="middle">1.20.6</text>
+  <text x="968" y="176" class="tick" text-anchor="middle">1.21.5</text>
+  <text x="1020" y="176" class="tick" text-anchor="middle">1.21.6</text>
+  <text x="1072" y="176" class="tick" text-anchor="middle">1.21.11</text>
+  <text x="1124" y="176" class="tick" text-anchor="middle">26.1</text>
+  <text x="1176" y="176" class="tick" text-anchor="middle">26.x</text>
+  <g aria-hidden="true"><path d="M60.9 208.25L64.79 210.5L64.79 219.5L57 224L49.21 219.5L49.21 210.5L57 206Z" class="outline-accent" fill="none" stroke-width="2.2" stroke-dasharray="6.3 0.9 12.6 0.9 12.6 0.9 12.6 0.9 6.3" stroke-linejoin="miter"/></g>
+  <text x="78" y="215" class="loader" dominant-baseline="central">Fabric</text>
+  <text x="78" y="249" class="file" dominant-baseline="central">sss-fabric-4.1.0+26.x.jar</text>
+  <rect x="1124" y="243" width="39" height="12" class="bar"/>
+  <path d="M1163 239L1176 249L1163 259Z" class="marker"/>
+  <path d="M1124 242L1130.06 245.5L1130.06 252.5L1124 256L1117.94 252.5L1117.94 245.5Z" class="marker"/>
+  <text x="78" y="283" class="file" dominant-baseline="central">sss-fabric-4.1.0+1.16.4-1.21.11.jar</text>
+  <rect x="552" y="277" width="520" height="12" class="bar"/>
+  <path d="M552 276L558.06 279.5L558.06 286.5L552 290L545.94 286.5L545.94 279.5Z" class="marker"/>
+  <path d="M1072 276L1078.06 279.5L1078.06 286.5L1072 290L1065.94 286.5L1065.94 279.5Z" class="marker"/>
+  <path d="M40 308H1200" class="rule"/>
+  <g aria-hidden="true"><path d="M60.9 326.25L64.79 328.5L64.79 337.5L57 342L49.21 337.5L49.21 328.5L57 324Z" class="outline-accent" fill="none" stroke-width="2.2" stroke-dasharray="6.3 0.9 12.6 0.9 12.6 0.9 12.6 0.9 6.3" stroke-linejoin="miter"/></g>
+  <text x="78" y="333" class="loader" dominant-baseline="central">NeoForge</text>
+  <text x="78" y="367" class="file" dominant-baseline="central">sss-neoforge-4.1.0+1.20.6-26.x.jar</text>
+  <rect x="916" y="361" width="247" height="12" class="bar"/>
+  <path d="M1163 357L1176 367L1163 377Z" class="marker"/>
+  <path d="M916 360L922.06 363.5L922.06 370.5L916 374L909.94 370.5L909.94 363.5Z" class="marker"/>
+  <text x="78" y="401" class="file" dominant-baseline="central">sss-neoforge-4.1.0+1.20.2-1.20.4.jar</text>
+  <rect x="812" y="395" width="52" height="12" class="bar"/>
+  <path d="M812 394L818.06 397.5L818.06 404.5L812 408L805.94 404.5L805.94 397.5Z" class="marker"/>
+  <path d="M864 394L870.06 397.5L870.06 404.5L864 408L857.94 404.5L857.94 397.5Z" class="marker"/>
+  <text x="78" y="435" class="file" dominant-baseline="central">sss-forge-4.1.0+1.18.2-1.20.1.jar<tspan class="note" dx="6">¹</tspan></text>
+  <path d="M760 424L769.53 429.5L769.53 440.5L760 446L750.47 440.5L750.47 429.5Z" class="halo"/>
+  <path d="M760 428L766.06 431.5L766.06 438.5L760 442L753.94 438.5L753.94 431.5Z" class="marker"/>
+  <path d="M40 460H1200" class="rule"/>
+  <g aria-hidden="true"><path d="M60.9 478.25L64.79 480.5L64.79 489.5L57 494L49.21 489.5L49.21 480.5L57 476Z" class="outline-accent" fill="none" stroke-width="2.2" stroke-dasharray="6.3 0.9 12.6 0.9 12.6 0.9 12.6 0.9 6.3" stroke-linejoin="miter"/></g>
+  <text x="78" y="485" class="loader" dominant-baseline="central">Forge</text>
+  <text x="78" y="519" class="file" dominant-baseline="central">sss-forge-4.1.0+1.21.6-1.21.11.jar</text>
+  <rect x="1020" y="513" width="52" height="12" class="bar"/>
+  <path d="M1020 512L1026.06 515.5L1026.06 522.5L1020 526L1013.94 522.5L1013.94 515.5Z" class="marker"/>
+  <path d="M1072 512L1078.06 515.5L1078.06 522.5L1072 526L1065.94 522.5L1065.94 515.5Z" class="marker"/>
+  <text x="78" y="553" class="file" dominant-baseline="central">sss-forge-4.1.0+1.20.6-1.21.5.jar</text>
+  <rect x="916" y="547" width="52" height="12" class="bar"/>
+  <path d="M916 546L922.06 549.5L922.06 556.5L916 560L909.94 556.5L909.94 549.5Z" class="marker"/>
+  <path d="M968 546L974.06 549.5L974.06 556.5L968 560L961.94 556.5L961.94 549.5Z" class="marker"/>
+  <text x="78" y="587" class="file" dominant-baseline="central">sss-forge-4.1.0+1.20.2-1.20.4.jar</text>
+  <rect x="812" y="581" width="52" height="12" class="bar"/>
+  <path d="M812 580L818.06 583.5L818.06 590.5L812 594L805.94 590.5L805.94 583.5Z" class="marker"/>
+  <path d="M864 580L870.06 583.5L870.06 590.5L864 594L857.94 590.5L857.94 583.5Z" class="marker"/>
+  <text x="78" y="621" class="file" dominant-baseline="central">sss-forge-4.1.0+1.18.2-1.20.1.jar</text>
+  <rect x="708" y="615" width="52" height="12" class="bar"/>
+  <path d="M708 614L714.06 617.5L714.06 624.5L708 628L701.94 624.5L701.94 617.5Z" class="marker"/>
+  <path d="M760 614L766.06 617.5L766.06 624.5L760 628L753.94 624.5L753.94 617.5Z" class="marker"/>
+  <text x="78" y="655" class="file" dominant-baseline="central">sss-forge-4.1.0+1.17.1.jar</text>
+  <path d="M656 644L665.53 649.5L665.53 660.5L656 666L646.47 660.5L646.47 649.5Z" class="halo"/>
+  <path d="M656 648L662.06 651.5L662.06 658.5L656 662L649.94 658.5L649.94 651.5Z" class="marker"/>
+  <text x="78" y="689" class="file" dominant-baseline="central">sss-forge-4.1.0+1.16.5.jar</text>
+  <path d="M604 678L613.53 683.5L613.53 694.5L604 700L594.47 694.5L594.47 683.5Z" class="halo"/>
+  <path d="M604 682L610.06 685.5L610.06 692.5L604 696L597.94 692.5L597.94 685.5Z" class="marker"/>
+  <text x="78" y="723" class="file" dominant-baseline="central">sss-forge-4.1.0+1.12.2.jar</text>
+  <path d="M500 712L509.53 717.5L509.53 728.5L500 734L490.47 728.5L490.47 717.5Z" class="halo"/>
+  <path d="M500 716L506.06 719.5L506.06 726.5L500 730L493.94 726.5L493.94 719.5Z" class="marker"/>
+  <text x="78" y="757" class="file" dominant-baseline="central">sss-forge-4.1.0+1.7.10.jar</text>
+  <path d="M448 746L457.53 751.5L457.53 762.5L448 768L438.47 762.5L438.47 751.5Z" class="halo"/>
+  <path d="M448 750L454.06 753.5L454.06 760.5L448 764L441.94 760.5L441.94 753.5Z" class="marker"/>
+  <text x="448" y="800" class="tick" text-anchor="middle">1.7.10</text>
+  <text x="500" y="800" class="tick" text-anchor="middle">1.12.2</text>
+  <text x="552" y="800" class="tick" text-anchor="middle">1.16.4</text>
+  <text x="604" y="800" class="tick" text-anchor="middle">1.16.5</text>
+  <text x="656" y="800" class="tick" text-anchor="middle">1.17.1</text>
+  <text x="708" y="800" class="tick" text-anchor="middle">1.18.2</text>
+  <text x="760" y="800" class="tick" text-anchor="middle">1.20.1</text>
+  <text x="812" y="800" class="tick" text-anchor="middle">1.20.2</text>
+  <text x="864" y="800" class="tick" text-anchor="middle">1.20.4</text>
+  <text x="916" y="800" class="tick" text-anchor="middle">1.20.6</text>
+  <text x="968" y="800" class="tick" text-anchor="middle">1.21.5</text>
+  <text x="1020" y="800" class="tick" text-anchor="middle">1.21.6</text>
+  <text x="1072" y="800" class="tick" text-anchor="middle">1.21.11</text>
+  <text x="1124" y="800" class="tick" text-anchor="middle">26.1</text>
+  <text x="1176" y="800" class="tick" text-anchor="middle">26.x</text>
+  <path d="M40 822H1200" class="rule"/>
+  <text x="48" y="852" class="muted small">¹ NeoForge 1.20.1 is a Forge fork and loads the Forge jar.</text>
+  <text x="48" y="874" class="muted small">Columns are evenly spaced in version order, not by release date.</text>
+  <g aria-hidden="true">
+  <rect x="730" y="856" width="40" height="12" class="bar"/><path d="M730 855L736.06 858.5L736.06 865.5L730 869L723.94 865.5L723.94 858.5Z" class="marker"/><path d="M770 855L776.06 858.5L776.06 865.5L770 869L763.94 865.5L763.94 858.5Z" class="marker"/>
+  <text x="786" y="862" class="muted small" dominant-baseline="central">range</text>
+  <rect x="860" y="856" width="27" height="12" class="bar"/><path d="M887 852L900 862L887 872Z" class="marker"/><path d="M860 855L866.06 858.5L866.06 865.5L860 869L853.94 865.5L853.94 858.5Z" class="marker"/>
+  <text x="916" y="862" class="muted small" dominant-baseline="central">later 26.x too</text>
+  <path d="M1050 851L1059.53 856.5L1059.53 867.5L1050 873L1040.47 867.5L1040.47 856.5Z" class="halo"/><path d="M1050 855L1056.06 858.5L1056.06 865.5L1050 869L1043.94 865.5L1043.94 858.5Z" class="marker"/>
+  <text x="1070" y="862" class="muted small" dominant-baseline="central">one version</text>
+  </g>
+</svg>

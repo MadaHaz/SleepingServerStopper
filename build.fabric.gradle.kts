@@ -4,7 +4,7 @@ plugins {
 }
 
 // DO NOT set group = ...!
-version = "${property("mod.version")}+${sc.current.version}"
+version = "${property("mod.version")}+${property("mod.mc_label")}"
 base.archivesName = "${property("mod.id")}-fabric"
 
 val requiredJava: JavaVersion = when {

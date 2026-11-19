@@ -1,14 +1,14 @@
-// MinecraftForge 1.17 - 1.20.1 via ModDevGradle's legacyforge plugin.
-// Forge 1.16.5 and older are separate builds under legacy/.
+// MinecraftForge 1.17.1 - 1.20.1 via ModDevGradle's legacyforge plugin.
+// Forge 1.20.2+ and 1.16.5 and older are separate builds under legacy/.
 plugins {
     id("net.neoforged.moddev.legacyforge")
     id("neoforge-mutex")
 }
 
-version = "${property("mod.version")}+${sc.current.version}"
+version = "${property("mod.version")}+${property("mod.mc_label")}"
 base.archivesName = "${property("mod.id")}-forge"
 
-val requiredJava = JavaVersion.VERSION_17
+val requiredJava = if (sc.current.parsed >= "1.18") JavaVersion.VERSION_17 else JavaVersion.VERSION_16
 
 sourceSets.main {
     java.srcDir(rootProject.file("core/src/main/java"))

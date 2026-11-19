@@ -4,15 +4,15 @@ Instructions for AI coding agents working in this repository. Humans: see `READM
 
 ## Project
 
-A server-side Minecraft mod that stops a dedicated server after it has been empty for a set time. One codebase builds 16 jars.
+A server-side Minecraft mod that stops a dedicated server after it has been empty for a set time. One codebase builds 12 jars, each covering a range of Minecraft versions.
 
 | Path | What it is |
 | --- | --- |
 | `core/` | Plain Java 8 logic (countdown, config) with unit tests. Compiled into every jar. |
 | `src/` | Loader entrypoints for the modern builds, versioned with Stonecutter comments (`//? if fabric {`). |
-| `stonecutter.properties.toml` | Mod version, and the per-target dependency versions. The list of modern targets. |
+| `stonecutter.properties.toml` | Mod version, and per node: the dependency versions, the Minecraft range the jar claims (`mod.mc_compat`), and the versions it is smoke tested on (`mod.smoke_versions`). |
 | `build.<loader>.gradle.kts` | Build script shared by every modern target of that loader. |
-| `legacy/forge-<mc>/` | Standalone Gradle builds for Forge 1.16.5, 1.12.2 and 1.7.10. |
+| `legacy/<loader>-<mc>/` | Standalone Gradle builds: Forge 1.21.6 (covers 1.21.6 – 1.21.11), Forge 1.21.1 (1.20.6 – 1.21.5), Forge 1.20.4 (1.20.2 – 1.20.4), NeoForge 1.20.4 (1.20.2 – 1.20.4), Forge 1.16.5, 1.12.2 and 1.7.10. An optional `smoke.properties` there sets the jar label and test versions. |
 | `test/smoke/run.mjs` | Smoke test harness. `docs/TESTING.md` explains it in full. |
 
 ```sh
@@ -39,10 +39,13 @@ When asked to test the mod, do this in order and stop at the first step that fai
 
 Rules while testing:
 
+- **Manual tests from another machine:** add `--lan` so the servers listen on the network, not just `127.0.0.1`.
 - **One run at a time.** Never run two smoke tests together, and never run `--dev` next to Docker mode. Free Gradle memory first with `./gradlew --stop` if a build has just finished.
 - **Always pass `--no-manual`.** Without it the script starts servers and waits for a person. Only use `--manual-only` when the user asks for a server to join.
+- A target is *one Minecraft version × the jar that claims it* (id `<mc>-<loader>`), so one jar has several targets. `--list` shows which jar each target uses.
 - To re-run a failure, use `--only <target>`. A cached target takes about 90 seconds.
-- Use `--dev --only <target>` to check a source change quickly without rebuilding jars. It is not a substitute for the Docker run before reporting success.
+- Use `--dev --only <target>` to check a source change quickly without rebuilding jars. It only works on the version a jar is built against (the node's version); other targets are skipped. It is not a substitute for the Docker run before reporting success.
+- A failure on a version the jar was not built against, caused by a real incompatibility in the game or loader, means the claimed range is wrong. Report it and propose narrowing `mod.mc_compat` (or a new node). Don't paper over it.
 
 ## Diagnosing a failure
 
@@ -71,7 +74,7 @@ Classify every failure as one of:
 
 - **Mod bug:** the log shows the mod misbehaving. Fix it in `core/`, `src/` or `legacy/`, add a unit test in `core/` when the logic lives there, rebuild that target and re-run it.
 - **Harness bug:** the server and mod behaved, and `run.mjs` misjudged it or the bot failed. Fix `run.mjs`.
-- **Infrastructure:** Docker not running, a download from Mojang, Modrinth or a loader's Maven failed, a port in 25600 – 25615 is taken, or the machine ran out of memory. Re-run once. If it repeats, report it.
+- **Infrastructure:** Docker not running, a download from Mojang, Modrinth or a loader's Maven failed, a port in 25600 – 25639 is taken, or the machine ran out of memory. Re-run once. If it repeats, report it.
 
 `joinLeave: "MANUAL"` is not a failure. Check `note`:
 

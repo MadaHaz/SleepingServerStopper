@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Smoke test: boots a real dedicated server for every Minecraft version + loader with the built mod jar,
+// Smoke test: boots a real dedicated server for every Minecraft version + loader each jar claims to support,
 // then checks the mod's behaviour from the server log.
 //
 //   empty on launch -> countdown starts -> bot joins -> countdown cancelled -> bot leaves
@@ -10,6 +10,7 @@
 
 import { spawn, spawnSync } from 'node:child_process';
 import fs from 'node:fs';
+import os from 'node:os';
 import path from 'node:path';
 import readline from 'node:readline';
 import { createRequire } from 'node:module';
@@ -45,7 +46,7 @@ const COUNTDOWN_MAX = 100 * SECOND;
 const args = parseArgs(process.argv.slice(2));
 
 function parseArgs(argv) {
-    const out = { only: [], parallel: null, dev: false, build: false, bot: true, manual: !process.env.CI, manualOnly: false, list: false, listJson: false };
+    const out = { only: [], parallel: null, dev: false, build: false, bot: true, manual: !process.env.CI, manualOnly: false, lan: false, list: false, listJson: false };
     for (let i = 0; i < argv.length; i++) {
         const arg = argv[i];
         if (arg === '--only') out.only.push(...argv[++i].split(','));
@@ -55,6 +56,7 @@ function parseArgs(argv) {
         else if (arg === '--no-bot') out.bot = false;
         else if (arg === '--no-manual') out.manual = false;
         else if (arg === '--manual-only') out.manualOnly = true;
+        else if (arg === '--lan') out.lan = true;
         else if (arg === '--list') out.list = true;
         else if (arg === '--list-json') out.listJson = true;
         else if (arg === '--help' || arg === '-h') usage(0);
@@ -76,6 +78,7 @@ function usage(code) {
   --no-bot         Skip the join/leave check
   --no-manual      Don't start servers for the versions that need a manual join/leave check
   --manual-only    Skip the automated run and start the selected targets for manual testing
+  --lan            Let other machines on the network join the servers (default: this machine only)
   --list           Print the targets and exit`);
     process.exit(code);
 }
@@ -99,7 +102,13 @@ function javaTag(mc) {
     return 'java8';
 }
 
-/** Modern targets come from stonecutter.properties.toml, legacy ones from the folders under legacy/. */
+/**
+ * A target is one Minecraft version that one jar is tested on. Each jar covers a range of versions and is
+ * tested on every version listed for it:
+ * - modern jars: `mod.smoke_versions` of each node in stonecutter.properties.toml
+ * - legacy jars: `versions` in legacy/<dir>/smoke.properties (default: the version in the folder name)
+ * Targets on the version a jar was built against also get a Gradle `runServer` for `--dev`.
+ */
 function loadTargets() {
     const toml = fs.readFileSync(path.join(ROOT, 'stonecutter.properties.toml'), 'utf8');
     const top = {};
@@ -117,49 +126,80 @@ function loadTargets() {
     }
     const modId = top['mod.id'];
     const modVersion = top['mod.version'];
+    const versionList = text => (text || '').split(/[\s,]+/).filter(Boolean);
 
-    const targets = tables.map(({ loader, mc, props }) => {
-        const env = { VERSION: mc };
-        if (loader === 'fabric') {
-            env.TYPE = 'FABRIC';
-            env.FABRIC_LOADER_VERSION = top['deps.fabric_loader'];
-            env.MODRINTH_PROJECTS = 'fabric-api';
-        } else if (loader === 'forge') {
-            env.TYPE = 'FORGE';
-            env.FORGE_VERSION = props['deps.forge'].replace(`${mc}-`, '');
-        } else {
-            env.TYPE = 'NEOFORGE';
-            env.NEOFORGE_VERSION = props['deps.neoforge'];
+    const targets = [];
+    for (const { loader, mc: built, props } of tables) {
+        const node = `${built}-${loader}`;
+        const label = props['mod.mc_label'] || built;
+        const versions = versionList(props['mod.smoke_versions']);
+        for (const entry of versions.length ? versions : [built]) {
+            // `<mc>@<loader>` runs the jar on another loader's server (NeoForge 1.20.1 is a Forge fork)
+            const [mc, server = loader] = entry.split('@');
+            const own = mc === built && server === loader;
+            const env = { VERSION: mc };
+            if (server === 'fabric') {
+                env.TYPE = 'FABRIC';
+                env.FABRIC_LOADER_VERSION = top['deps.fabric_loader'];
+                env.MODRINTH_PROJECTS = 'fabric-api';
+            } else if (server === 'forge') {
+                env.TYPE = 'FORGE';
+                // On other versions the image picks the recommended (or latest) loader build
+                if (own) env.FORGE_VERSION = props['deps.forge'].replace(`${built}-`, '');
+            } else {
+                env.TYPE = 'NEOFORGE';
+                if (own) env.NEOFORGE_VERSION = props['deps.neoforge'];
+            }
+            targets.push({
+                id: `${mc}-${server}`, mc, built, loader: server, env,
+                jar: path.join(ROOT, 'build', 'libs', modVersion, `${modId}-${loader}-${modVersion}+${label}.jar`),
+                artifact: { name: 'modern', path: 'build/libs' },
+                gradleArgs: own ? [`:${node}:runServer`] : null,
+                runDir: path.join(ROOT, 'run', node),
+            });
         }
-        const id = `${mc}-${loader}`;
-        return {
-            id, mc, loader, env,
-            jar: path.join(ROOT, 'build', 'libs', modVersion, `${modId}-${loader}-${modVersion}+${mc}.jar`),
-            artifact: { name: 'modern', path: 'build/libs' },
-            gradleArgs: [`:${id}:runServer`],
-            runDir: path.join(ROOT, 'run', id),
-        };
-    });
+    }
 
     const legacyRoot = path.join(ROOT, 'legacy');
     for (const dir of fs.readdirSync(legacyRoot).sort()) {
-        const match = /^forge-(.+)$/.exec(dir);
+        const match = /^(forge|neoforge)-(.+)$/.exec(dir);
         if (!match) continue;
-        const mc = match[1];
-        const env = { TYPE: 'FORGE', VERSION: mc };
+        const [, loader, built] = match;
+        const smokeFile = path.join(legacyRoot, dir, 'smoke.properties');
+        const smoke = {};
+        if (fs.existsSync(smokeFile)) {
+            for (const line of fs.readFileSync(smokeFile, 'utf8').split(/\r?\n/)) {
+                const pair = /^\s*([\w.]+)\s*=\s*(.*?)\s*$/.exec(line);
+                if (pair && !line.trimStart().startsWith('#')) smoke[pair[1]] = pair[2];
+            }
+        }
+        const label = smoke.label || built;
+        const versions = versionList(smoke.versions);
         const script = fs.readFileSync(path.join(legacyRoot, dir, 'build.gradle.kts'), 'utf8');
-        const forge = new RegExp(`forge:${mc.replaceAll('.', '\\.')}-([\\d.]+)`).exec(script);
-        if (forge) env.FORGE_VERSION = forge[1];
-        targets.push({
-            id: `${mc}-forge`, mc, loader: 'forge', env,
-            jar: path.join(legacyRoot, dir, 'build', 'libs', `${modId}-forge-${modVersion}+${mc}.jar`),
-            artifact: { name: dir, path: `legacy/${dir}/build/libs` },
-            gradleArgs: ['-p', `legacy/${dir}`, 'runServer'],
-            runDir: path.join(legacyRoot, dir, 'run'),
-            legacyDir: `legacy/${dir}`,
-        });
+        // The loader build the jar is built against: `forge:<mc>-<build>` or `neoforge:<build>`
+        const pinned = loader === 'forge'
+            ? new RegExp(`forge:${built.replaceAll('.', '\\.')}-([\\d.]+)`).exec(script)
+            : /neoforge:([\d.]+)/.exec(script);
+        const LOADER = loader.toUpperCase();
+        for (const mc of versions.length ? versions : [built]) {
+            const env = { TYPE: LOADER, VERSION: mc };
+            if (pinned && mc === built) env[`${LOADER}_VERSION`] = pinned[1];
+            targets.push({
+                id: `${mc}-${loader}`, mc, built, loader, env,
+                jar: path.join(legacyRoot, dir, 'build', 'libs', `${modId}-${loader}-${modVersion}+${label}.jar`),
+                artifact: { name: dir, path: `legacy/${dir}/build/libs` },
+                gradleArgs: mc === built ? ['-p', `legacy/${dir}`, 'runServer'] : null,
+                runDir: path.join(legacyRoot, dir, 'run'),
+                legacyDir: `legacy/${dir}`,
+            });
+        }
     }
 
+    const ids = new Set();
+    for (const target of targets) {
+        if (ids.has(target.id)) throw new Error(`two jars are tested on ${target.id}; fix the smoke version lists`);
+        ids.add(target.id);
+    }
     targets.sort((a, b) => compareVersions(b.mc, a.mc) || a.loader.localeCompare(b.loader));
     targets.forEach((target, index) => {
         // Dev runs get their own range so they can run next to the Docker ones
@@ -254,6 +294,15 @@ const active = new Set();
 
 // ---------------------------------------------------------------- launchers
 
+/** The address to give a person joining by hand: this machine's LAN address with `--lan`. */
+function joinHost() {
+    if (!args.lan) return 'localhost';
+    const addresses = Object.values(os.networkInterfaces()).flat()
+        .filter(address => address && address.family === 'IPv4' && !address.internal);
+    const lan = addresses.find(address => /^(192\.168|10)\./.test(address.address)) || addresses[0];
+    return lan ? lan.address : 'localhost';
+}
+
 function configText(config) {
     return `shutdownTimeInMinutes=${config.minutes}\nshutdownOnLaunch=${config.onLaunch}\n`;
 }
@@ -283,7 +332,7 @@ function startDocker(target, ctx, config, logFile) {
     const env = { EULA: 'TRUE', MEMORY: '1G', ONLINE_MODE: 'FALSE', VIEW_DISTANCE: '4', ...target.env };
     const child = spawn('docker', [
         'run', '--rm', '--name', name,
-        '-p', `127.0.0.1:${target.port}:25565`,
+        '-p', `${args.lan ? '0.0.0.0' : '127.0.0.1'}:${target.port}:25565`,
         '-v', `${volume}:/data`,
         ...Object.entries(env).flatMap(([key, value]) => ['-e', `${key}=${value}`]),
         target.image,
@@ -514,7 +563,7 @@ async function runManual(target, ctx) {
         });
         await watcher.waitFor(M_CONFIG, BOOT_TIMEOUT);
         seen.ready = true;
-        log(target.id, `READY  ->  localhost:${target.port}   (Minecraft ${target.mc}, ${target.loader})`);
+        log(target.id, `READY  ->  ${joinHost()}:${target.port}   (Minecraft ${target.mc}, ${target.loader})`);
         const code = await watcher.exited;
         seen.stopped = code === 0 && watcher.lines.some(line => line.text.includes(M_STOP));
         log(target.id, seen.stopped ? 'shut itself down cleanly' : `exited with code ${code}`);
@@ -545,7 +594,8 @@ function table(rows) {
 }
 
 function buildAll(ctx) {
-    const builds = [['buildAll'], ...ctx.targets.filter(target => target.legacyDir).map(target => ['-p', target.legacyDir, 'build'])];
+    const legacyDirs = [...new Set(ctx.targets.filter(target => target.legacyDir).map(target => target.legacyDir))];
+    const builds = [['buildAll'], ...legacyDirs.map(dir => ['-p', dir, 'build'])];
     for (const gradleArgs of builds) {
         console.log(`> gradlew ${gradleArgs.join(' ')}`);
         const result = IS_WIN
@@ -568,6 +618,17 @@ async function main() {
             process.exit(2);
         }
     }
+    if (args.dev) {
+        // runServer only exists for the version each jar is built against
+        const skipped = selected.filter(target => !target.gradleArgs);
+        selected = selected.filter(target => target.gradleArgs);
+        if (skipped.length) console.log(`--dev skips ${skipped.map(target => target.id).join(', ')} (no runServer for those versions)
+`);
+        if (!selected.length) {
+            console.error('None of the selected targets has a dev server. Drop --dev to test them in Docker.');
+            process.exit(2);
+        }
+    }
 
     if (args.listJson) {
         // Consumed by the GitHub Actions matrix
@@ -575,7 +636,8 @@ async function main() {
         return;
     }
     if (args.list) {
-        console.log(table([['TARGET', 'IMAGE', 'PORT'], ...selected.map(target => [target.id, target.image, target.port])]));
+        console.log(table([['TARGET', 'JAR', 'IMAGE', 'PORT'],
+            ...selected.map(target => [target.id, path.basename(target.jar), target.image, target.port])]));
         return;
     }
 
